@@ -5,6 +5,7 @@ import altair as alt
 from src.model.layers import PositionalEncoding
 from vizualisations import save_chart
 
+
 def example_positional():
     pe = PositionalEncoding(20, 0)
     y = pe.forward(torch.zeros(1, 100, 20))

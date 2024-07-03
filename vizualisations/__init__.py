@@ -1,5 +1,6 @@
 import os
 
+
 def save_chart(
     chart, filename, output_dir="output/figures", format="html", scale_factor=2.0
 ):
