@@ -1,15 +1,16 @@
 import math
 import torch
 import torch.nn as nn
-from torch.nn.modules.activation import MultiheadAttention
 
 from src.utils.helpers import clones
+
 
 def subsequent_mask(size):
     """Mask out subsequent positions."""
     attn_shape = (1, size, size)
     subsequent_mask = torch.triu(torch.ones(attn_shape), diagonal=1).type(torch.uint8)
     return subsequent_mask == 0
+
 
 def attention(query, key, value, mask=None, dropout=None):
     """Compute Scaled Dot Product Attention."""
@@ -59,11 +60,7 @@ class MultiHeadedAttention(nn.Module):
         # "Concat" (for the MultiHead part) using a view and apply a final linear
         # Contiguous arranges the tensor in a single contiguous physical memory space
         # -> Transpose or view can scramble physical memory adresses for tensor values
-        x = (
-            x.transpose(1, 2)
-            .contiguous()
-            .view(nbatches, -1, self.h * self.d_k)
-        )
+        x = x.transpose(1, 2).contiguous().view(nbatches, -1, self.h * self.d_k)
 
         del query
         del key

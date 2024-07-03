@@ -1,5 +1,4 @@
 import copy
-import torch
 import torch.nn as nn
 
 from src.model.attention import MultiHeadedAttention
@@ -47,7 +46,7 @@ def make_model(src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0
     c = copy.deepcopy
 
     attn = MultiHeadedAttention(h, d_model)
-    ff = PositionWiseFeedforward(d_model ,d_ff, dropout)
+    ff = PositionWiseFeedforward(d_model, d_ff, dropout)
     position = PositionalEncoding(d_model, dropout)
 
     model = EncoderDecoder(
@@ -55,7 +54,7 @@ def make_model(src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0
         Decoder(DecoderLayer(d_model, c(attn), c(attn), c(ff), dropout), N),
         nn.Sequential(Embeddings(d_model, src_vocab), c(position)),
         nn.Sequential(Embeddings(d_model, tgt_vocab), c(position)),
-        Generator(d_model, tgt_vocab)
+        Generator(d_model, tgt_vocab),
     )
 
     # Important : Initalize with Glorot / fan_avg values
